@@ -35,8 +35,8 @@ data "aws_vpc" "requestor" {
 
 # Lookup requestor route tables
 data "aws_route_table" "requestor" {
-  count     = "${var.enabled == "true" ? length(distinct(sort(data.aws_subnet_ids.requestor.ids))) : 0}"
-  subnet_id = "${element(distinct(sort(data.aws_subnet_ids.requestor.ids)), count.index)}"
+  count     = "${var.enabled == "true" ? length(distinct(sort(data.aws_subnet_ids.requestor.*.ids))) : 0}"
+  subnet_id = "${element(distinct(sort(data.aws_subnet_ids.requestor.*.ids)), count.index)}"
 }
 
 # Lookup requestor subnets
@@ -59,8 +59,8 @@ data "aws_subnet_ids" "acceptor" {
 
 # Lookup acceptor route tables
 data "aws_route_table" "acceptor" {
-  count     = "${var.enabled == "true" ? length(distinct(sort(data.aws_subnet_ids.acceptor.ids))) : 0}"
-  subnet_id = "${element(distinct(sort(data.aws_subnet_ids.acceptor.ids)), count.index)}"
+  count     = "${var.enabled == "true" ? length(distinct(sort(data.aws_subnet_ids.acceptor.*.ids))) : 0}"
+  subnet_id = "${element(distinct(sort(data.aws_subnet_ids.acceptor.*.ids)), count.index)}"
 }
 
 # Create routes from requestor to acceptor
